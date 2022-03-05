@@ -7,16 +7,13 @@ use Illuminate\Support\Facades\Config;
 
 abstract class BigCommerceAPI
 {
-    protected $endPoint;
+    protected ?string $endPoint;
 
-    /**
-     * @var BigCommerceClient
-     */
-    public $bigCommerceClient;
+    public ?BigCommerceClient $bigCommerceClient;
 
-    private $base_url;
+    private ?string $base_url;
 
-    private $api_version;
+    private ?string $api_version;
 
     public function __construct()
     {
@@ -53,7 +50,7 @@ abstract class BigCommerceAPI
         return $this->api_version = Config::get('bigcommerce-api-laravel.api_version');
     }
 
-    public function switchApiVersion($version)
+    public function switchApiVersion(string $version)
     {
         if ($version != 'v2' && $version != 'v3')
             return $this;
@@ -72,7 +69,7 @@ abstract class BigCommerceAPI
         return $this->getBaseUrl() . $this->bigCommerceClient->getStoreHash() . '/' . $this->getApiVersion() . '/' . $end_point . ($id ? ('/' . $id) : '');
     }
 
-    public function query($endPoint): self
+    public function query(string $endPoint): self
     {
         $this->endPoint = $endPoint;
         return $this;
@@ -87,7 +84,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function paginate($page = 1, $per_page = 15, $query_data = [])
+    public function paginate(int $page = 1, int $per_page = 15, array $query_data = [])
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), array_merge($query_data, ['page' => $page, 'limit' => $per_page]));
         if ($response->status() == 200)
@@ -96,7 +93,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function get($id, $query_data = null)
+    public function get(int $id, $query_data = null)
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint, $id), $query_data);
         if ($response->status() == 200)
@@ -114,7 +111,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function update($id, $form_data = [])
+    public function update(int $id, $form_data = [])
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint, $id), $form_data);
         if ($response->status() == 200)
@@ -132,7 +129,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $response = $this->client()->delete($this->generateUrl($this->endPoint, $id));
         if ($response->status() == 200)
@@ -141,7 +138,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function deleteMultiple($ids = [])
+    public function deleteMultiple(array $ids = [])
     {
         $ids_string = '?id:in[]=';
         $first = true;
