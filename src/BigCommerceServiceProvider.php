@@ -26,7 +26,7 @@ class BigCommerceServiceProvider extends PackageServiceProvider
             return new BigCommerce();
         });
 
-        $this->app->bind('bigcommerce-client', function () {
+        $this->app->singleton('bigcommerce-client', function () {
             return new BigCommerceClient();
         });
 
