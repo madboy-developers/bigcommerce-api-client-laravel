@@ -138,9 +138,11 @@ abstract class BigCommerceAPI
 
     /**
      * @param string|null $api_version
+     * @return BigCommerceAPI
      */
-    public function setApiVersion(?string $api_version): void
+    public function setApiVersion(?string $api_version): self
     {
         $this->api_version = $api_version;
+        return $this;
     }
 }
