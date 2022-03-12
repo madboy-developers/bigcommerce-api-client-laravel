@@ -4,6 +4,7 @@ namespace MadBoy\BigCommerceAPI\Facades;
 
 use Illuminate\Support\Facades\Facade;
 use MadBoy\BigCommerceAPI\BigCommerce as BigClient;
+use MadBoy\BigCommerceAPI\BigCommerceAPI;
 
 /**
  * @method static BigClient query($endPoint)
@@ -14,6 +15,8 @@ use MadBoy\BigCommerceAPI\BigCommerce as BigClient;
  * @method static updateMultiple($form_data = [])
  * @method static delete($id)
  * @method static deleteMultiple($ids = [])
+ *
+ * @see BigCommerceAPI
  */
 class BigAPI extends Facade
 {

@@ -21,9 +21,9 @@ class BigCommerceClient
     }
 
     /**
-     * @param string|null $store_hash
+     * @param string $store_hash
      */
-    public function setStoreHash(?string $store_hash): void
+    public function setStoreHash(string $store_hash): void
     {
         $this->store_hash = $store_hash;
     }
@@ -37,9 +37,9 @@ class BigCommerceClient
     }
 
     /**
-     * @param string|null $access_token
+     * @param string $access_token
      */
-    public function setAccessToken(?string $access_token): void
+    public function setAccessToken(string $access_token): void
     {
         $this->access_token = $access_token;
     }
