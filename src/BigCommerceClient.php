@@ -66,10 +66,10 @@ class BigCommerceClient
      */
     public function client(): PendingRequest
     {
-        if ($this->getStoreHash())
+        if (!$this->getStoreHash())
             throw new Exception('Store hash is not set. Please set store hash.');
 
-        if ($this->getAccessToken())
+        if (!$this->getAccessToken())
             throw new Exception('Store Access Token is not set. Please set store access token.');
 
         if ($this->environment === 'local')
