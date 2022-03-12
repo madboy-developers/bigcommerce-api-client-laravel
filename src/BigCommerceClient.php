@@ -14,9 +14,9 @@ class BigCommerceClient
 
     private Closure $getAccessToken;
 
-    private ?string $store_hash;
+    private string $store_hash;
 
-    private ?string $access_token;
+    private string $access_token;
 
     private string $environment;
 
@@ -28,7 +28,7 @@ class BigCommerceClient
     /**
      * @return string|null
      */
-    public function getStoreHash(): ?string
+    public function getStoreHash(): string
     {
         if (!isset($this->store_hash))
             $this->store_hash = ($this->getStoreHash)();
@@ -38,7 +38,7 @@ class BigCommerceClient
     /**
      * @return string|null
      */
-    public function getAccessToken(): ?string
+    public function getAccessToken(): string
     {
         if (!isset($this->access_token))
             $this->access_token = ($this->getAccessToken)();

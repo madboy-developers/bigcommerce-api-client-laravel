@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Config;
 
 abstract class BigCommerceAPI
 {
-    protected ?string $endPoint;
+    protected string $endPoint;
 
     public BigCommerceClient $bigCommerceClient;
 
-    private ?string $base_url;
+    private string $base_url;
 
-    private ?string $api_version;
+    private string $api_version;
 
     public function __construct()
     {
@@ -131,7 +131,7 @@ abstract class BigCommerceAPI
     /**
      * @return string|null
      */
-    public function getApiVersion(): ?string
+    public function getApiVersion(): string
     {
         return $this->api_version;
     }
@@ -140,7 +140,7 @@ abstract class BigCommerceAPI
      * @param string|null $api_version
      * @return BigCommerceAPI
      */
-    public function setApiVersion(?string $api_version): self
+    public function setApiVersion(string $api_version): self
     {
         $this->api_version = $api_version;
         return $this;
