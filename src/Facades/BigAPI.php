@@ -15,10 +15,10 @@ use MadBoy\BigCommerceAPI\BigCommerce as BigClient;
  * @method static delete($id)
  * @method static deleteMultiple($ids = [])
  */
-class BigCommerce extends Facade
+class BigAPI extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'ct-bigcommerce-client';
+        return 'bigcommerce-api';
     }
 }
