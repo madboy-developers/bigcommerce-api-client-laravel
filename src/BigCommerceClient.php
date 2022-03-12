@@ -5,6 +5,7 @@ namespace MadBoy\BigCommerceAPI;
 use Closure;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class BigCommerceClient
@@ -16,6 +17,13 @@ class BigCommerceClient
     private ?string $store_hash;
 
     private ?string $access_token;
+
+    private string $environment;
+
+    public function __construct()
+    {
+        $this->environment = Config::get('app.env');;
+    }
 
     /**
      * @return string|null
@@ -63,6 +71,13 @@ class BigCommerceClient
 
         if ($this->getAccessToken())
             throw new Exception('Store Access Token is not set. Please set store access token.');
+
+        if ($this->environment === 'local')
+            return Http::withoutVerifying()->withHeaders([
+                'x-auth-token' => $this->getAccessToken(),
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+            ]);
 
         return Http::withHeaders([
             'x-auth-token' => $this->getAccessToken(),
