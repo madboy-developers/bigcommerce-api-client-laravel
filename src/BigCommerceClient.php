@@ -2,12 +2,17 @@
 
 namespace MadBoy\BigCommerceAPI;
 
+use Closure;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 class BigCommerceClient
 {
+    private Closure $getStoreHash;
+
+    private Closure $getAccessToken;
+
     private ?string $store_hash;
 
     private ?string $access_token;
@@ -17,15 +22,9 @@ class BigCommerceClient
      */
     public function getStoreHash(): ?string
     {
+        if (!isset($this->store_hash))
+            $this->store_hash = ($this->getStoreHash)();
         return $this->store_hash;
-    }
-
-    /**
-     * @param string $store_hash
-     */
-    public function setStoreHash(string $store_hash): void
-    {
-        $this->store_hash = $store_hash;
     }
 
     /**
@@ -33,15 +32,25 @@ class BigCommerceClient
      */
     public function getAccessToken(): ?string
     {
+        if (!isset($this->access_token))
+            $this->access_token = ($this->getAccessToken)();
         return $this->access_token;
     }
 
     /**
-     * @param string $access_token
+     * @param Closure $getStoreHash
      */
-    public function setAccessToken(string $access_token): void
+    public function setGetStoreHash(Closure $getStoreHash): void
     {
-        $this->access_token = $access_token;
+        $this->getStoreHash = $getStoreHash;
+    }
+
+    /**
+     * @param Closure $getAccessToken
+     */
+    public function setGetAccessToken(Closure $getAccessToken): void
+    {
+        $this->getAccessToken = $getAccessToken;
     }
 
     /**
