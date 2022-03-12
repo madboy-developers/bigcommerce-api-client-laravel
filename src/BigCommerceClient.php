@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class BigCommerceClient
 {
-    private Closure $getStoreHash;
+    private ?Closure $getStoreHash = null;
 
-    private Closure $getAccessToken;
+    private ?Closure $getAccessToken = null;
 
-    private string $store_hash;
+    private ?string $store_hash = null;
 
-    private string $access_token;
+    private ?string $access_token = null;
 
     private string $environment;
 

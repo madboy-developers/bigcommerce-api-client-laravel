@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Config;
 
 abstract class BigCommerceAPI
 {
-    protected string $endPoint;
+    protected ?string $endPoint = null;
 
     public BigCommerceClient $bigCommerceClient;
 
-    private string $base_url;
+    private ?string $base_url = null;
 
-    private string $api_version;
+    private ?string $api_version = null;
 
     public function __construct()
     {
