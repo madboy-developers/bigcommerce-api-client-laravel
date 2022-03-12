@@ -2,14 +2,16 @@
 
 namespace MadBoy\BigCommerceAPI;
 
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
 abstract class BigCommerceAPI
 {
     protected ?string $endPoint;
 
-    public ?BigCommerceClient $bigCommerceClient;
+    public BigCommerceClient $bigCommerceClient;
 
     private ?string $base_url;
 
@@ -17,23 +19,7 @@ abstract class BigCommerceAPI
 
     public function __construct()
     {
-        $class_name = Config::get('bigcommerce-api-laravel.big_client');
-        if ($class_name) {
-            $this->bigCommerceClient = new $class_name();
-        } else {
-            $this->bigCommerceClient = new class extends BigCommerceClient {
-
-                public function getStoreHash()
-                {
-                    return Config::get('bigcommerce-api-laravel.api_config.store_hash');
-                }
-
-                public function getAccessToken()
-                {
-                    return Config::get('bigcommerce-api-laravel.api_config.access_token');
-                }
-            };
-        }
+        $this->bigCommerceClient = App::make('bigcommerce-client');
     }
 
     private function getBaseUrl()
@@ -43,22 +29,9 @@ abstract class BigCommerceAPI
         return $this->base_url = Config::get('bigcommerce-api-laravel.base_url');
     }
 
-    private function getApiVersion()
-    {
-        if ($this->api_version)
-            return $this->api_version;
-        return $this->api_version = Config::get('bigcommerce-api-laravel.api_version');
-    }
-
-    public function switchApiVersion(string $version)
-    {
-        if ($version != 'v2' && $version != 'v3')
-            return $this;
-
-        $this->api_version = $version;
-        return $this;
-    }
-
+    /**
+     * @throws Exception
+     */
     public function client(): PendingRequest
     {
         return $this->bigCommerceClient->client();
@@ -69,9 +42,10 @@ abstract class BigCommerceAPI
         return $this->getBaseUrl() . $this->bigCommerceClient->getStoreHash() . '/' . $this->getApiVersion() . '/' . $end_point . ($id ? ('/' . $id) : '');
     }
 
-    public function query(string $endPoint): self
+    public function query(string $endPoint = null): self
     {
-        $this->endPoint = $endPoint;
+        if ($endPoint)
+            $this->endPoint = $endPoint;
         return $this;
     }
 
@@ -154,8 +128,19 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public static function makeQuery()
+    /**
+     * @return string|null
+     */
+    public function getApiVersion(): ?string
     {
-        return (new static);
+        return $this->api_version;
+    }
+
+    /**
+     * @param string|null $api_version
+     */
+    public function setApiVersion(?string $api_version): void
+    {
+        $this->api_version = $api_version;
     }
 }
