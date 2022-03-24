@@ -11,16 +11,9 @@ abstract class BigCommerceAPI
 {
     protected ?string $endPoint = null;
 
-    public BigCommerceClient $bigCommerceClient;
-
     private ?string $base_url = null;
 
     private ?string $api_version = null;
-
-    public function __construct()
-    {
-        $this->bigCommerceClient = App::make('bigcommerce-client');
-    }
 
     private function getBaseUrl()
     {
@@ -34,12 +27,17 @@ abstract class BigCommerceAPI
      */
     public function client(): PendingRequest
     {
-        return $this->bigCommerceClient->client();
+        return App::make('bigcommerce-client')->client();
+    }
+
+    private function getStoreHash(): string
+    {
+        return App::make('bigcommerce-client')->getStoreHash();
     }
 
     public function generateUrl($end_point, $id = null): string
     {
-        return $this->getBaseUrl() . $this->bigCommerceClient->getStoreHash() . '/' . $this->getApiVersion() . '/' . $end_point . ($id ? ('/' . $id) : '');
+        return $this->getBaseUrl() . $this->getStoreHash() . '/' . $this->getApiVersion() . '/' . $end_point . ($id ? ('/' . $id) : '');
     }
 
     public function query(string $endPoint = null): self

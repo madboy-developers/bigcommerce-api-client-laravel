@@ -50,6 +50,7 @@ class BigCommerceClient
      */
     public function setGetStoreHash(Closure $getStoreHash): void
     {
+        $this->store_hash = null;
         $this->getStoreHash = $getStoreHash;
     }
 
@@ -58,6 +59,7 @@ class BigCommerceClient
      */
     public function setGetAccessToken(Closure $getAccessToken): void
     {
+        $this->access_token = null;
         $this->getAccessToken = $getAccessToken;
     }
 
