@@ -4,8 +4,8 @@ namespace MadBoy\BigCommerceAPI;
 
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
+use MadBoy\BigCommerceAPI\Facades\BigClient;
 
 abstract class BigCommerceAPI
 {
@@ -27,12 +27,12 @@ abstract class BigCommerceAPI
      */
     public function client(): PendingRequest
     {
-        return App::make('bigcommerce-client')->client();
+        return BigClient::client();
     }
 
     private function getStoreHash(): string
     {
-        return App::make('bigcommerce-client')->getStoreHash();
+        return BigClient::getStoreHash();
     }
 
     public function generateUrl($end_point, $id = null): string
