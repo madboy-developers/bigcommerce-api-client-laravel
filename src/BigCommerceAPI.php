@@ -107,6 +107,9 @@ abstract class BigCommerceAPI
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
+        if ($response->status() == 204)
+            return true;
+
         return false;
     }
 
