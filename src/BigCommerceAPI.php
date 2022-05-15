@@ -65,7 +65,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function get(int $id, $query_data = null)
+    public function get(int|string $id, $query_data = null)
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint, $id), $query_data);
         if ($response->status() == 200)
@@ -83,7 +83,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function update(int $id, $form_data = [])
+    public function update(int|string $id, $form_data = [])
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint, $id), $form_data);
         if ($response->status() == 200)
@@ -101,7 +101,7 @@ abstract class BigCommerceAPI
         return false;
     }
 
-    public function delete(int $id)
+    public function delete(int|string $id)
     {
         $response = $this->client()->delete($this->generateUrl($this->endPoint, $id));
         if ($response->status() == 200)
