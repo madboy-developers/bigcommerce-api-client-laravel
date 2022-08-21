@@ -182,12 +182,11 @@ abstract class BigCommerceAPI
     }
 
     /**
-     * @param bool $validated_response
      * @return BigCommerceAPI
      */
-    public function setVaidatedResponse(bool $validated_response): self
+    public function withoutValidation(): self
     {
-        $this->validatedResponse = $validated_response;
+        $this->validatedResponse = false;
         return $this;
     }
 }
