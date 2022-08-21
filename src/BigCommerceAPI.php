@@ -15,7 +15,7 @@ abstract class BigCommerceAPI
 
     private ?string $apiVersion = null;
 
-    private bool $validatedResponse = false;
+    private bool $validatedResponse = true;
 
     private function getBaseUrl()
     {
