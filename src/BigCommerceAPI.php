@@ -11,17 +11,17 @@ abstract class BigCommerceAPI
 {
     protected ?string $endPoint = null;
 
-    private ?string $base_url = null;
+    private ?string $baseURL = null;
 
-    private ?string $api_version = null;
+    private ?string $apiVersion = null;
 
-    private bool $validated_response = false;
+    private bool $validatedResponse = false;
 
     private function getBaseUrl()
     {
-        if ($this->base_url)
-            return $this->base_url;
-        return $this->base_url = Config::get('bigcommerce-api-laravel.base_url');
+        if ($this->baseURL)
+            return $this->baseURL;
+        return $this->baseURL = Config::get('bigcommerce-api-laravel.base_url');
     }
 
     /**
@@ -53,7 +53,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), $query_data);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -66,7 +66,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), array_merge($query_data, ['page' => $page, 'limit' => $per_page]));
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -79,7 +79,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint, $id), $query_data);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -92,7 +92,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->post($this->generateUrl($this->endPoint), $form_data);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -105,7 +105,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint, $id), $form_data);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -118,7 +118,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint), $form_data);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -131,7 +131,7 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->delete($this->generateUrl($this->endPoint, $id));
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -154,7 +154,7 @@ abstract class BigCommerceAPI
         }
         $response = $this->client()->delete($this->generateUrl($this->endPoint) . $ids_string);
 
-        if (!$this->validated_response)
+        if (!$this->validatedResponse)
             return $response;
 
         if ($response->status() == 200)
@@ -168,24 +168,26 @@ abstract class BigCommerceAPI
      */
     public function getApiVersion(): string
     {
-        return $this->api_version;
+        return $this->apiVersion;
     }
 
     /**
-     * @param string $api_version
+     * @param string $apiVersion
      * @return BigCommerceAPI
      */
-    public function setApiVersion(string $api_version): self
+    public function setApiVersion(string $apiVersion): self
     {
-        $this->api_version = $api_version;
+        $this->apiVersion = $apiVersion;
         return $this;
     }
 
     /**
      * @param bool $validated_response
+     * @return BigCommerceAPI
      */
-    public function setVaidatedresponse(bool $validated_response): void
+    public function setVaidatedResponse(bool $validated_response): self
     {
-        $this->validated_response = $validated_response;
+        $this->validatedResponse = $validated_response;
+        return $this;
     }
 }
