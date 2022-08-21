@@ -15,6 +15,8 @@ abstract class BigCommerceAPI
 
     private ?string $api_version = null;
 
+    private bool $validated_response = false;
+
     private function getBaseUrl()
     {
         if ($this->base_url)
@@ -50,6 +52,10 @@ abstract class BigCommerceAPI
     public function all($query_data = null)
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), $query_data);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -59,6 +65,10 @@ abstract class BigCommerceAPI
     public function paginate(int $page = 1, int $per_page = 15, array $query_data = [])
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), array_merge($query_data, ['page' => $page, 'limit' => $per_page]));
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -68,6 +78,10 @@ abstract class BigCommerceAPI
     public function get(int|string $id, $query_data = null)
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint, $id), $query_data);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -77,6 +91,10 @@ abstract class BigCommerceAPI
     public function create($form_data = [])
     {
         $response = $this->client()->post($this->generateUrl($this->endPoint), $form_data);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -86,6 +104,10 @@ abstract class BigCommerceAPI
     public function update(int|string $id, $form_data = [])
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint, $id), $form_data);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -95,6 +117,10 @@ abstract class BigCommerceAPI
     public function updateMultiple($form_data = [])
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint), $form_data);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -104,6 +130,10 @@ abstract class BigCommerceAPI
     public function delete(int|string $id)
     {
         $response = $this->client()->delete($this->generateUrl($this->endPoint, $id));
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -123,6 +153,10 @@ abstract class BigCommerceAPI
                 $first = false;
         }
         $response = $this->client()->delete($this->generateUrl($this->endPoint) . $ids_string);
+
+        if (!$this->validated_response)
+            return $response;
+
         if ($response->status() == 200)
             return json_decode($response->body(), true);
 
@@ -130,7 +164,7 @@ abstract class BigCommerceAPI
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getApiVersion(): string
     {
@@ -138,12 +172,20 @@ abstract class BigCommerceAPI
     }
 
     /**
-     * @param string|null $api_version
+     * @param string $api_version
      * @return BigCommerceAPI
      */
     public function setApiVersion(string $api_version): self
     {
         $this->api_version = $api_version;
         return $this;
+    }
+
+    /**
+     * @param bool $validated_response
+     */
+    public function setVaidatedresponse(bool $validated_response): void
+    {
+        $this->validated_response = $validated_response;
     }
 }
