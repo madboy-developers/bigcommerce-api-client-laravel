@@ -10,11 +10,11 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "php": "^8.0",
+      "php": "^8.1",
       "ext-json": "*",
-      "spatie/laravel-package-tools": "^1.11.2",
-      "illuminate/http": "^9.0",
-      "illuminate/support": "^9.0"
+      "illuminate/http": "^10.0",
+      "illuminate/support": "^10.0",
+        "spatie/laravel-package-tools": "dev-main"
     },
     "autoload": {
         "psr-4": {
