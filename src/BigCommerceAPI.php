@@ -53,6 +53,11 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), $query_data);
 
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->all($query_data);
+        }
+
         if (!$this->validatedResponse)
             return $response;
 
@@ -65,6 +70,11 @@ abstract class BigCommerceAPI
     public function paginate(int $page = 1, int $per_page = 15, array $query_data = [])
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint), array_merge($query_data, ['page' => $page, 'limit' => $per_page]));
+
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->paginate($page, $per_page, $query_data);
+        }
 
         if (!$this->validatedResponse)
             return $response;
@@ -79,6 +89,11 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->get($this->generateUrl($this->endPoint, $id), $query_data);
 
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->get($id, $query_data);
+        }
+
         if (!$this->validatedResponse)
             return $response;
 
@@ -91,6 +106,11 @@ abstract class BigCommerceAPI
     public function create($form_data = [])
     {
         $response = $this->client()->post($this->generateUrl($this->endPoint), $form_data);
+
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->create($form_data);
+        }
 
         if (!$this->validatedResponse)
             return $response;
@@ -105,6 +125,11 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint, $id), $form_data);
 
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->update($id, $form_data);
+        }
+
         if (!$this->validatedResponse)
             return $response;
 
@@ -118,6 +143,11 @@ abstract class BigCommerceAPI
     {
         $response = $this->client()->put($this->generateUrl($this->endPoint), $form_data);
 
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->updateMultiple($form_data);
+        }
+
         if (!$this->validatedResponse)
             return $response;
 
@@ -130,6 +160,11 @@ abstract class BigCommerceAPI
     public function delete(int|string $id)
     {
         $response = $this->client()->delete($this->generateUrl($this->endPoint, $id));
+
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->delete($id);
+        }
 
         if (!$this->validatedResponse)
             return $response;
@@ -153,6 +188,11 @@ abstract class BigCommerceAPI
                 $first = false;
         }
         $response = $this->client()->delete($this->generateUrl($this->endPoint) . $ids_string);
+
+        if (Config::get('bigcommerce-api-laravel.auto_retry_after') && $sleep = intval($response->header('x-retry-after'))) {
+            sleep($sleep + 1);
+            return $this->deleteMultiple($ids);
+        }
 
         if (!$this->validatedResponse)
             return $response;
